@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.exam.mapper.ExamMapper">
+    <select id="selectExamData" parameterType="Map" resultType="Map">
+
+SELECT NOW() '단지명'
+     , 2 '위도'
+     , 3 '경도'
+	<if test="showGnrtnCnt == true">
+  	 , 4 '총세대수'
+	</if>
+  FROM DUAL
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+server:
+  port: 12480
+
+spring:
+  application:
+    name: school-exam
+  servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB
+        enabled: true
+  datasource:
+    driver-class-name : com.mysql.cj.jdbc.Driver
+    initialization-mode: NEVER
+    dbcp2:
+      initial-size: 20
+      max-total: 200
+      pool-prepared-statements: true
+    tomcat:
+      validation-query: SELECT 1
+      test-on-borrow: true
+      time-between-eviction-runs-milis: 1000
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      enabled: true
+
