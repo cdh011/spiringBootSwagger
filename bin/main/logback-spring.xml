@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+    
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf-8</charset>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS, Asia/Seoul} %5p [%X{X-B3-TraceId:-}] - %msg%n</Pattern>
+        </encoder>
+    </appender>   
+   
+   <if condition='property("spring.profiles.active").equals("prod")'>
+        <then></then>
+        <else>
+        	<if condition='property("spring.profiles.active").equals("stg")'>
+	        	<then></then>
+	        	<else>
+		            <logger name="com.school" level="DEBUG"></logger>
+	        	</else>
+        	</if>
+        </else>
+    </if>
+    
+    <root level="INFO"> 
+        <appender-ref ref="consoleAppender" />
+    </root>
+</configuration>
