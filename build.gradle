@@ -1,0 +1,96 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.2.RELEASE'
+		springCloudVersion = 'Hoxton.SR1'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+		classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+	}
+}
+
+plugins {
+	id 'java'
+	id 'idea'
+	id 'eclipse'
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+compileJava {
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // 2020.10.13 mysql을 위해 추가 
+	//implementation 'org.springframework.boot:spring-boot-starter'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    // 기존 내용
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    
+    // janino 설정
+	compile 'org.codehaus.janino:janino:2.6.1'
+	compile 'org.codehaus.janino:commons-compiler:2.6.1'
+    
+    // swagger 설정
+	implementation 'io.springfox:springfox-swagger2:2.7.0'
+	implementation 'io.springfox:springfox-swagger-ui:2.7.0'
+	
+	// mysql 설정
+    implementation 'mysql:mysql-connector-java:8.0.17'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1'
+    
+    // 2020.10.13 mysql을 위해 추가 
+    //runtimeOnly 'mysql:mysql-connector-java'
+	
+	// lombok 설정
+	compile 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	// gson
+	compile 'com.google.code.gson:gson:2.8.2'
+	
+	// apach 설정
+	compile 'org.apache.httpcomponents:httpclient:4.5.12'
+	
+	// log id
+	compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	
+	//test
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+version = "CI-JENKINS_BUILD_NUMBER"
+
+bootJar {
+	baseName = "CI-PJT-NAME"
+}
+
+test {
+	useJUnitPlatform()
+}

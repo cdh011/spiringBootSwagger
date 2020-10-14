@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name : com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/exam?&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username : root
+    password : 1234Qwer!
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:21001/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: ALWAYS
