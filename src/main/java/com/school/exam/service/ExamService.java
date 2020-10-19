@@ -18,12 +18,31 @@ import lombok.extern.slf4j.Slf4j;
 public class ExamService {
 	private final ExamMapper examMapper;
 	
-	public List<Map<String, Object>> getExamData(Map<String, Object> params) {
+	public List<Map<String, Object>> getTestScoreList(Map<String, Object> params) {
 		log.debug("getExam called");
-		
-		List<Map<String, Object>> data = examMapper.selectExamData(params);
-		
+		List<Map<String, Object>> data = examMapper.selectTestScoreList(params);
 		return data;
 	}
 
+	public int selectTestScoreCnt(Map<String, Object> params) {
+		log.debug("getExam called");
+		int data = examMapper.selectTestScoreCnt(params);
+		return data;
+	}
+	
+	public int insertTestScore(Map<String, Object> params) {
+		int resultValue = examMapper.insertTestScore(params);
+		return resultValue;
+	}
+	
+	public int updateTestScore(Map<String, Object> params) {
+		int resultValue = examMapper.updateTestScore(params);
+		return resultValue;
+	}
+	
+	public int deleteTestScore(Map<String, Object> params) {
+		int resultValue = examMapper.deleteTestScore(params);
+		return resultValue;
+	}
+	
 }

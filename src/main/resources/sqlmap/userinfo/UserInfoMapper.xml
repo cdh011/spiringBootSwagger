@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.userinfo.mapper.UserInfoMapper">
+
+    <select id="selectUserInfoList" parameterType="Map" resultType="Map">
+/** com.school.userinfo.mapper.UserInfoMapper.selectUserInfoList */
+
+select 
+	 aa.user_no , aa.user_id, aa.user_nm, aa.phone_no, aa.email 
+from e_user_info aa
+where 1=1
+<if test = "user_no != null" >
+	and aa.user_no = #{user_no}
+</if>
+<if test = "user_id != null" >
+	and aa.user_id = #{user_id}
+</if>
+<if test = "user_nm != null" >
+	and aa.user_nm like concat(#{user_nm},'%')
+</if>
+order by aa.user_no
+
+    </select>
+
+
+    <select id="selectUserInfoListCnt" parameterType="Map" resultType="Integer">
+/** com.school.userinfo.mapper.UserInfoMapper.selectUserInfoListCnt */
+select 
+count(*) as page_list_cnt
+from e_user_info aa
+where 1=1
+<if test = "user_no != null" >
+	and aa.user_no = #{user_no}
+</if>
+<if test = "user_id != null" >
+	and aa.user_id = #{user_id}
+</if>
+<if test = "user_nm != null" >
+	and aa.user_nm like concat(#{user_nm},'%')
+</if>
+
+    </select>
+
+
+    <insert id="insertUserInfo" parameterType="Map">
+/** com.school.user.mapper.UserInfoMapper.insertUserInfo */
+INSERT INTO e_user_info
+(USER_ID, USER_NM, BIRTH_DATE, GENDER, PHONE_NO, EMAIL, PWD, RGST_DT, RGST_EMPL_NO, UPDT_DT, UPDT_EMPL_NO)
+VALUES(#{user_id}, #{user_nm}, #{birth_date}, #{gender}, #{phone_no}, #{email}, #{pwd}, now(), #{empl_no}, now(), #{empl_no})
+    </insert>
+    
+    
+    <update id="updateUserInfo" parameterType="Map">
+/** com.school.user.mapper.UserInfoMapper.updateUserInfo */
+update exam.e_user_info
+set user_id = #{user_id}
+, user_nm = #{user_nm}
+, birth_date = #{birth_date}
+, gender = #{gender}
+, phone_no = #{phone_no}
+, email = #{email}
+, pwd = #{pwd}
+, updt_dt = now()
+, updt_empl_no = #{empl_no}
+where user_no = #{user_no}
+    </update>
+
+    <delete id="deleteUserInfo" parameterType="Map">
+/** com.school.user.mapper.UserInfoMapper.deleteUserInfo */
+delete from e_user_info
+ WHERE user_no = #{user_no}
+    </delete>
+    
+    
+</mapper>

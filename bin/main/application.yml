@@ -6,6 +6,8 @@ spring:
     url : jdbc:mysql://localhost:3306/exam?&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username : root
     password : root
+
+# eureka 설정 (굳이 사용안할꺼면 별도 설정없어도 된다.)
 eureka:
   instance:
     hostname: localhost
@@ -14,6 +16,8 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://localhost:21001/eureka/
+
+
 management:
   endpoints:
     web:
@@ -24,3 +28,4 @@ management:
       enabled: true
     health:
       show-details: ALWAYS
+  

@@ -1,15 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.school.exam.mapper.ExamMapper">
-    <select id="selectExamData" parameterType="Map" resultType="Map">
 
-SELECT NOW() '단지명'
-     , 2 '위도'
-     , 3 '경도'
-	<if test="showGnrtnCnt == true">
-  	 , 4 '총세대수'
-	</if>
-  FROM DUAL
+    <select id="selectTestScoreList" parameterType="Map" resultType="Map">
+/** com.school.exam.mapper.ExamMapper.selectTestScoreList */
+select @rownum:=@rownum+1 ROWNO, aa.* from 
+(
+select 
+aa.TEST_NO , aa.subject_code, bb.subject_name, aa.user_no, cc.user_nm, aa.score
+from e_test_score_info aa
+inner join e_subject_info bb 
+	on bb.subject_code = aa.subject_code
+inner join e_user_info cc 
+	on cc.user_no = aa.user_no
+where 1=1
+<if test = "test_no != null" >
+	and aa.test_no = #{test_no}
+</if>
+<if test = "user_no != null" >
+	and aa.user_no = #{user_no}
+</if>
+order by aa.user_no, aa.subject_code
+limit #{page_no}, #{page_list_cnt}
+) aa
+inner join (select @rownum := #{page_no}) num
+	on 1=1
     </select>
 
+
+    <select id="selectTestScoreCnt" parameterType="Map" resultType="Integer">
+/** com.school.exam.mapper.ExamMapper.selectTestScoreCnt */
+select 
+count(*) as page_list_cnt
+from e_test_score_info aa
+inner join e_subject_info bb 
+	on bb.subject_code = aa.subject_code
+inner join e_user_info cc 
+	on cc.user_no = aa.user_no
+where 1=1
+<if test = "test_no != null" >
+	and aa.test_no = #{test_no}
+</if>
+<if test = "user_no != null" >
+	and aa.user_no = #{user_no}
+</if>
+
+    </select>
+
+
+    <insert id="insertTestScore" parameterType="Map">
+/** com.school.exam.mapper.ExamMapper.insertTestScore */
+INSERT INTO e_test_score_info
+(test_no, subject_code, user_no, score, rgst_dt, rgst_empl_no, updt_dt, updt_empl_no)
+VALUES(#{test_no}, #{subject_code}, #{user_no}, #{score}, now(), #{empl_no}, now(), #{empl_no})
+    </insert>
+    
+    <update id="updateTestScore" parameterType="Map">
+/** com.school.exam.mapper.ExamMapper.updateTestScore */
+UPDATE e_test_score_info
+   SET score = #{score}
+   , updt_dt = now()
+   , updt_empl_no = #{empl_no}
+ WHERE test_no = #{test_no}
+ and subject_code = #{subject_code}
+ and user_no = #{user_no}
+    </update>
+
+    <delete id="deleteTestScore" parameterType="Map">
+/** com.school.exam.mapper.ExamMapper.deleteTestScore */
+delete from e_test_score_info
+ WHERE test_no = #{test_no}
+ and user_no = #{user_no}
+    </delete>
+    
+    
 </mapper>
